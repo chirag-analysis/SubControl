@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "subcontrol": {
+      "command": "python",
+      "args": [
+        "c:/Users/chirag.kunder/Desktop/Volopay_assignment/SubControl/backend/mcp_server.py"
+      ],
+      "env": {
+        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/subcontrol"
+      }
+    }
+  }
+}
