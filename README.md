@@ -135,3 +135,4 @@ SubControl/
 - License validation enforced at the service layer: `used_licenses <= license_count`.
 - No credentials or secrets committed to frontend code.
 - Immutable `activity_log` audit trail tracking every mutation with before/after state diffs.
+

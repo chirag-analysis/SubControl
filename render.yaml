@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: subcontrol
+    env: python
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: subcontrol-db
+          property: connectionString
+
+databases:
+  - name: subcontrol-db
+    databaseName: subcontrol
+    user: postgres

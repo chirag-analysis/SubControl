@@ -6,6 +6,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from mcp.server.sse import TransportSecuritySettings
+import sys
+# Ensure backend directory is in sys.path
+backend_root = str(Path(__file__).resolve().parent.parent)
+if backend_root not in sys.path:
+    sys.path.insert(0, backend_root)
+from mcp_server import server as mcp_server
+
 from .config import settings
 from .database import Base, engine
 from .routers import (
@@ -55,6 +63,13 @@ app.include_router(reviews_router, prefix="/api")
 app.include_router(savings_router, prefix="/api")
 app.include_router(payments_router, prefix="/api")
 app.include_router(activity_router, prefix="/api")
+
+# Mount MCP SSE application at /mcp
+# Provides live URL: /mcp/sse for remote Claude connection
+mcp_sse_subapp = mcp_server.sse_app(
+    transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=False)
+)
+app.mount("/mcp", mcp_sse_subapp)
 
 
 @app.get("/api/health")
